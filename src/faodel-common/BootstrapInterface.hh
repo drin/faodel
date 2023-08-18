@@ -31,7 +31,7 @@ public:
   virtual void Start() = 0;
   virtual void Finish() = 0;
   virtual void GetBootstrapDependencies(std::string &name,
-                       std::vector<std::string> &requires,
+                       std::vector<std::string> &bootstrap_requires,
                        std::vector<std::string> &optional) const = 0;
 
   virtual ~BootstrapInterface() = default;

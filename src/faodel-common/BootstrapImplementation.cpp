@@ -60,7 +60,7 @@ Bootstrap::~Bootstrap() {
  * @throw runtime_exception If bootstrap is not in unintialized state or component exists and not allow_overwrites
  */
 void Bootstrap::RegisterComponent(string name,
-                                  vector <string> requires,
+                                  vector <string> bootstrap_requires,
                                   vector <string> optional,
                                   fn_init init_function,
                                   fn_start start_function,
@@ -85,7 +85,7 @@ void Bootstrap::RegisterComponent(string name,
 
   bstrap_t bs;
   bs.name = name;
-  bs.requires = requires;
+  bs.bootstrap_requires = bootstrap_requires;
   bs.optional = optional;
   bs.init_function = init_function;
   bs.start_function = start_function;
@@ -115,9 +115,9 @@ void Bootstrap::RegisterComponent(string name,
  */
 void Bootstrap::RegisterComponent(BootstrapInterface *component, bool allow_overwrites) {
   string name;
-  vector <string> requires;
+  vector <string> bootstrap_requires;
   vector <string> optional;
-  component->GetBootstrapDependencies(name, requires, optional);
+  component->GetBootstrapDependencies(name, bootstrap_requires, optional);
 
   state_mutex->Lock();
 
@@ -138,7 +138,7 @@ void Bootstrap::RegisterComponent(BootstrapInterface *component, bool allow_over
   //Normal registration
   bstrap_t bs;
   bs.name = name;
-  bs.requires = requires;
+  bs.bootstrap_requires = bootstrap_requires;
   bs.optional = optional;
   bs.init_function = [component](Configuration *config) { component->InitAndModifyConfiguration(config); };
   bs.start_function = [component]() { component->Start(); };
@@ -476,13 +476,13 @@ bool Bootstrap::expandDependencies(map <string, set<string>> &dep_lut, stringstr
     set <string> deps;
 
     //Verify all requires exist
-    for(auto &p : bs.requires) {
+    for(auto &p : bs.bootstrap_requires) {
       if(all_mandatory.count(p) == 0) {
         emsg << "Bootstrap error: stage " << bs.name << " requires missing component " << p << endl;
         return false;
       }
     }
-    deps.insert(bs.requires.begin(), bs.requires.end());
+    deps.insert(bs.bootstrap_requires.begin(), bs.bootstrap_requires.end());
 
     //Add in any optionals
     for(auto &p :bs.optional) {
