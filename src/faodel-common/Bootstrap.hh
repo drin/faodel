@@ -28,7 +28,7 @@ using fn_register = std::function<std::string ()>;
 
 
 void RegisterComponent(const std::string &name,
-                       std::vector<std::string> requires,
+                       std::vector<std::string> bootstrap_requires,
                        std::vector<std::string> optional,
                        fn_init init_function,
                        fn_start start_function,

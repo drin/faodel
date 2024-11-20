@@ -22,7 +22,7 @@ namespace internal {
 //Holds info on each component
 typedef struct {
   std::string name;
-  std::vector<std::string> requires;
+  std::vector<std::string> bootstrap_requires;
   std::vector<std::string> optional;
   fn_init  init_function;
   fn_start start_function;
@@ -43,7 +43,7 @@ public:
   void SetNodeID(NodeID nodeid) { my_node_id = nodeid; }
 
   void RegisterComponent(std::string name,
-                         std::vector<std::string> requires,
+                         std::vector<std::string> bootstrap_requires,
                          std::vector<std::string> optional,
                          fn_init  init_function,
                          fn_start start_function,

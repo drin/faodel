@@ -54,14 +54,14 @@ faodel::bootstrap::internal::Bootstrap faodel::bootstrap::internal::Singleton::i
  * @throws runtime_exception when allow_overwrites is false and the name already has a bootstrap registered for it
  */
 void RegisterComponent(const string &name,
-                       vector<string> requires,
+                       vector<string> bootstrap_requires,
                        vector<string> optional,
                        fn_init init_function,
                        fn_start start_function,
                        fn_fini fini_function,
                        bool allow_overwrites) {
 
-  return BSCORE.RegisterComponent(name, requires, optional,
+  return BSCORE.RegisterComponent(name, bootstrap_requires, optional,
                                   init_function, start_function, fini_function,
                                   allow_overwrites);
 
