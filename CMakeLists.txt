@@ -40,6 +40,10 @@ if( POLICY CMP0115 )
 endif()
 
 
+# Module path modifications
+list(APPEND CMAKE_MODULE_PATH "/usr/local/arrow-dev/lib/cmake"    )
+list(APPEND CMAKE_MODULE_PATH "/opt/homebrew/opt/boost/lib/cmake/")
+
 
 # CMake built-ins that we'll use
 include( FindPkgConfig )
